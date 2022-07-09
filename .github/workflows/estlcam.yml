@@ -22,11 +22,11 @@ jobs:
         run: echo "Current version ${{ env.CURRENT_VERSION }}" && echo "Latest version ${{ env.LATEST_VERSION }}"
 
       - name: Local files
-        run: echo "LOCAL_FILES=$(ls estlcam-wine | tr '\n' ' ')" >> $GITHUB_ENV
+        run: rm estlcam-wine/PKGBUILD && echo "LOCAL_FILES=$(ls estlcam-wine | tr '\n' ' ')" >> $GITHUB_ENV
         if: env.LATEST_VERSION != env.CURRENT_VERSION
 
       - name: Calculate integrity hashes
-        run: echo "LOCAL_HASHES=$(sha256sum $(ls) | awk '{print $1}' | tr '\n' ' ')" >> $GITHUB_ENV
+        run: echo "LOCAL_HASHES=$(sha512sum $LOCAL_FILES | awk '{print $1}' | tr '\n' ' ')" >> $GITHUB_ENV
         if: env.LATEST_VERSION != env.CURRENT_VERSION
 
       - name: Create PKGBUILD
