@@ -41,7 +41,7 @@ jobs:
           PKGURL: 'https://www.estlcam.de'
           PKGLICENSE: 'Unknown'
           PKGDEPENDS: 'wine'
-          PKGSOURCE: 'estlcam Estlcam.ico Estlcam.desktop https://www.estlcam.de/downloads/Estlcam_64_$pkgver.exe'
+          PKGSOURCE: ${{ env.LOCAL_FILES }} https://www.estlcam.de/downloads/Estlcam_64_$pkgver.exe
           PKGSHA512SUMS: ${{ env.LOCAL_HASHES }} SKIP
           PKGPACKAGE: 'mkdir -p ${pkgdir}/usr/bin ${pkgdir}/usr/share/${pkgname} ${pkgdir}/usr/share/applications ${pkgdir}/usr/share/pixmaps; cp Estlcam_64_${pkgver}.exe ${pkgdir}/usr/share/${pkgname}/Estlcam_setup.exe; cp Estlcam.ico ${pkgdir}/usr/share/${pkgname}; cp Estlcam.desktop ${pkgdir}/usr/share/applications; cp Estlcam.ico ${pkgdir}/usr/share/pixmaps; cp estlcam ${pkgdir}/usr/bin'
 
