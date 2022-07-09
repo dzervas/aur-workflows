@@ -9,7 +9,7 @@ license=(Unknown)
 depends=(wine)
 makedepends=()
 source=(estlcam Estlcam.ico Estlcam.desktop https://www.estlcam.de/downloads/Estlcam_64_$pkgver.exe)
-sha512sums=(6df355aec739f4f9fc7c9a5a7f41ef2928eb0e129cbb4073a3e426bf64537c44  SKIP)
+sha512sums=( SKIP)
 options=(!strip)
 
 package() {
