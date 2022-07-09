@@ -15,7 +15,7 @@ options=(!strip)
 package() {
   mkdir -p "\/usr/share/estlcam-wine"
 
-  mkdir -p ${pkgdir}/usr/bin ${pkgdir}/usr/share/${pkgname} ${pkgdir}/usr/share/applications ${pkgdir}/usr/share/pixmaps; cp Estlcam_64_${pkgver}.exe ${pkgdir}/usr/share/${pkgname}/Estlcam_setup.exe; cp Estlcam.png ${pkgdir}/usr/share/${pkgname}; cp Estlcam.desktop ${pkgdir}/usr/share/applications; cp Estlcam.ico ${pkgdir}/usr/share/pixmaps; cp estlcam ${pkgdir}/usr/bin
+  mkdir -p ${pkgdir}/usr/bin ${pkgdir}/usr/share/${pkgname} ${pkgdir}/usr/share/applications ${pkgdir}/usr/share/pixmaps; cp Estlcam_64_${pkgver}.exe ${pkgdir}/usr/share/${pkgname}/Estlcam_setup.exe; cp Estlcam.png ${pkgdir}/usr/share/${pkgname}; cp Estlcam.desktop ${pkgdir}/usr/share/applications; cp Estlcam.png ${pkgdir}/usr/share/pixmaps; cp estlcam ${pkgdir}/usr/bin
 
   echo "Please check out the license at https://www.estlcam.de"
 }
