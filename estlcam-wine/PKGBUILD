@@ -1,0 +1,21 @@
+# Maintainer: Dimitris Zervas <dzervas@dzervas.gr>
+pkgname=estlcam-wine
+pkgver=11244
+pkgrel=1
+pkgdesc="Estlcam: 2D / 3D CAM und CNC Steuerung... - wine installation"
+arch=(i686 x86_64)
+url="https://www.estlcam.de"
+license=(Unknown)
+depends=(wine)
+makedepends=()
+source=(estlcam Estlcam.ico Estlcam.desktop https://www.estlcam.de/downloads/Estlcam_64_$pkgver.exe)
+sha512sums=(6df355aec739f4f9fc7c9a5a7f41ef2928eb0e129cbb4073a3e426bf64537c44  SKIP)
+options=(!strip)
+
+package() {
+  mkdir -p "\/usr/share/estlcam-wine"
+
+  mkdir -p ${pkgdir}/usr/bin ${pkgdir}/usr/share/${pkgname} ${pkgdir}/usr/share/applications ${pkgdir}/usr/share/pixmaps; cp Estlcam_64_${pkgver}.exe ${pkgdir}/usr/share/${pkgname}/Estlcam_setup.exe; cp Estlcam.ico ${pkgdir}/usr/share/${pkgname}; cp Estlcam.desktop ${pkgdir}/usr/share/applications; cp Estlcam.ico ${pkgdir}/usr/share/pixmaps; cp estlcam ${pkgdir}/usr/bin
+
+  echo "Please check out the license at https://www.estlcam.de"
+}
