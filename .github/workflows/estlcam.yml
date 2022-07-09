@@ -1,0 +1,57 @@
+---
+
+name: Estlcam Update Check
+on:
+  schedule:
+    - cron: '04 10 * * *'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get current version
+        run: echo "CURRENT_VERSION=$(cat .estlcam_version)" >> $GITHUB_ENV
+      - name: Get latest version
+        # run: echo "LATEST_VERSION=$(curl -s 'https://www.estlcam.de/index.php' | egrep -oh 'downloads/Estlcam_64_\w+.exe' | head -n1 | sed -E 's/.*_([0-9]{2})([0-9]{3}).exe/\1.\2/')" >> $GITHUB_ENV
+        run: echo "LATEST_VERSION=$(curl -s 'https://www.estlcam.de/index.php' | egrep -oh 'downloads/Estlcam_64_\w+.exe' | head -n1 | sed -E 's/.*_([0-9]{5}).exe/\1/')" >> $GITHUB_ENV
+
+      - name: Show context
+        run: echo "Current version ${{ env.CURRENT_VERSION }}" && echo "Latest version ${{ env.LATEST_VERSION }}"
+
+      - name: Local files
+        run: echo "LOCAL_FILES=$(ls estlcam-wine | tr '\n' ' ')" >> $GITHUB_ENV
+        if: env.LATEST_VERSION != env.CURRENT_VERSION
+
+      - name: Calculate integrity hashes
+        run: echo "LOCAL_HASHES=$(sha256sum $(ls) | awk '{print $1}' | tr '\n' ' ')" >> $GITHUB_ENV
+        if: env.LATEST_VERSION != env.CURRENT_VERSION
+
+      - name: Create PKGBUILD
+        run: envsubst < WINE_PKGBUILD > estlcam-wine/PKGBUILD
+        if: env.LATEST_VERSION != env.CURRENT_VERSION
+        env:
+          PKGNAME: 'estlcam-wine'
+          PKGVER: '11244'
+          PKGREL: '1'
+          PKGDESC: 'Estlcam: 2D / 3D CAM und CNC Steuerung... - wine installation'
+          PKGARCH: 'i686 x86_64'
+          PKGURL: 'https://www.estlcam.de'
+          PKGLICENSE: 'Unknown'
+          PKGDEPENDS: 'wine'
+          PKGSOURCE: 'estlcam Estlcam.ico Estlcam.desktop https://www.estlcam.de/downloads/Estlcam_64_$pkgver.exe'
+          PKGSHA512SUMS: ${{ env.LOCAL_HASHES }} SKIP
+          PKGPACKAGE: 'mkdir -p ${pkgdir}/usr/bin ${pkgdir}/usr/share/${pkgname} ${pkgdir}/usr/share/applications ${pkgdir}/usr/share/pixmaps; cp Estlcam_64_${pkgver}.exe ${pkgdir}/usr/share/${pkgname}/Estlcam_setup.exe; cp Estlcam.ico ${pkgdir}/usr/share/${pkgname}; cp Estlcam.desktop ${pkgdir}/usr/share/applications; cp Estlcam.ico ${pkgdir}/usr/share/pixmaps; cp estlcam ${pkgdir}/usr/bin'
+
+      - name: Update current version
+        run: echo $LATEST_VERSION > .estlcam_version
+        if: env.LATEST_VERSION != env.CURRENT_VERSION
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        if: env.LATEST_VERSION != env.CURRENT_VERSION
+        with:
+          branch: main
+          commit_message: "[Estlcam] Update to version ${{ env.LATEST_VERSION }}"

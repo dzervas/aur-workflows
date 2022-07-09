@@ -1,0 +1,21 @@
+# Maintainer: Dimitris Zervas <dzervas@dzervas.gr>
+pkgname=$PKGNAME
+pkgver=$PKGVER
+pkgrel=$PKGREL
+pkgdesc="$PKGDESC"
+arch=($PKGARCH)
+url="$PKGURL"
+license=($PKGLICENSE)
+depends=($PKGDEPENDS)
+makedepends=($PKGMAKEDEPENDS)
+source=($PKGSOURCE)
+sha512sums=($PKGSHA512SUMS)
+options=(!strip)
+
+package() {
+  mkdir -p "\${pkgdir}/usr/share/$PKGNAME"
+
+  $PKGPACKAGE
+
+  echo "Please check out the license at $PKGURL"
+}
