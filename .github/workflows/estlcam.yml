@@ -26,7 +26,7 @@ jobs:
         if: env.LATEST_VERSION != env.CURRENT_VERSION
 
       - name: Calculate integrity hashes
-        run: echo "LOCAL_HASHES=$(sha512sum $LOCAL_FILES | awk '{print $1}' | tr '\n' ' ')" >> $GITHUB_ENV
+        run: cd estlcam-wine && echo "LOCAL_HASHES=$(sha512sum $LOCAL_FILES | awk '{print $1}' | tr '\n' ' ')" >> $GITHUB_ENV
         if: env.LATEST_VERSION != env.CURRENT_VERSION
 
       - name: Create PKGBUILD
