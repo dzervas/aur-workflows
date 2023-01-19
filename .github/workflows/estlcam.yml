@@ -34,7 +34,7 @@ jobs:
         if: env.LATEST_VERSION != env.CURRENT_VERSION
         env:
           PKGNAME: 'estlcam-wine'
-          PKGVER: '11244'
+          PKGVER: ${{ env.LATEST_VERSION }}
           PKGREL: '1'
           PKGDESC: 'Estlcam: 2D / 3D CAM und CNC Steuerung... - wine installation'
           PKGARCH: 'i686 x86_64'
